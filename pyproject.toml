@@ -1,0 +1,21 @@
+[project]
+name = "deploy-with-render"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dash-tools>=1.12.0",
+    "gunicorn>=23.0.0",
+    "pip>=24.3.1",
+    "setuptools>=75.6.0",
+]
+
+[dependency-groups]
+dev = [
+    "dash[testing]>=2.18.2",
+    "pytest>=6.2.5",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["./dash_test/test_app.py"]
