@@ -9,7 +9,7 @@ import dash_bootstrap_components as dbc
 
 # loading files
 
-with open("europe_new.json") as f:
+with open("../europe_new.json") as f:
     jl = json.load(f)
 
 
