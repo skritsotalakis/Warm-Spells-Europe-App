@@ -13,7 +13,7 @@ with open("../europe_new.json") as f:
     jl = json.load(f)
 
 
-df_init = pd.read_csv("df_WSDI.csv", header=[0, 1, 2], index_col=0)
+df_init = pd.read_csv("../df_WSDI.csv", header=[0, 1, 2], index_col=0)
 df0 = df_init["WSDI_events"]
 df00 = df_init["WSDI_days"]
 time_list = df0.index.to_list()
