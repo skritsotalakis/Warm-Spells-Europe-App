@@ -1,4 +1,5 @@
 # Importing necessary libraries
+
 import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
@@ -17,7 +18,13 @@ df_init = pd.read_csv("../df_WSDI.csv", header=[0, 1, 2], index_col=0)
 df0 = df_init["WSDI_events"]
 df00 = df_init["WSDI_days"]
 time_list = df0.index.to_list()
-
+pre_df0 = {year: df_init["WSDI_events"].loc[year].reset_index() for year in time_list}
+zmin=round(np.nanmin(df0.values))
+zmax=round(np.nanmax(df0.values))
+df0min=df0.min().min()
+df0max=df0.max().max()
+df00min=df00.min().min()
+df00max=df00.max().max()
 ########### Dash App part
 
 # MAIN APP CODE
@@ -113,7 +120,7 @@ app.layout = html.Div(
 
 @app.callback(Output("graph_fig", "figure"), Input("year-slider", "value"))
 def update_graph(sel_year):
-    dfw = df0.loc[sel_year].to_frame().reset_index()
+    dfw = pre_df0[sel_year]
     mapping = {dfw.columns[2]: "Extreme Events"}
     dfw = dfw.rename(columns=mapping)
     dfw["id"] = np.arange(1, len(dfw["Extreme Events"]) + 1)
@@ -123,8 +130,8 @@ def update_graph(sel_year):
             locations=dfw["Abr"],
             z=dfw["Extreme Events"],
             colorscale=px.colors.sequential.OrRd,
-            zmin=round(np.nanmin(df0.values)),
-            zmax=round(np.nanmax(df0.values)),
+            zmin=zmin,
+            zmax=zmax,
             marker_opacity=0.5,
         )
     )
@@ -137,7 +144,7 @@ def update_graph(sel_year):
         plot_bgcolor="black",
         paper_bgcolor="black",
         font=dict(family="Courier New, monospace", size=18, color="white"),
-        mapbox_zoom=2.1,
+        mapbox_zoom=2.3,
         mapbox_center={"lat": 57, "lon": 16},
         transition_duration=500,
     )
